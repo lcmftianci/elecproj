@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+  </head>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <body>
+    <h1>Hello World</h1>
+    <input id="sendTxt" type="text"/>
+    <button id="sendBtn">发送</button>
+    <div id="recv">司机送消息</div>
+    <table id="table1">
+            <!-- <dt>Coffee</dt>
+            <dd>Black hot drink</dd>
+            <dt>Milk</dt>
+            <dd>White cold drink</dd> -->
+    </table>
+
+    <script>
+    //https://www.css88.com/archives/9293
+    //https://www.cnblogs.com/axes/p/3586132.html
+    //https://www.npmjs.com/package/nodejs-websocket
+    //https://blog.csdn.net/banjing_1993/article/details/80744908
+    //websocket发送消息实时报错
+    var ws = new WebSocket("ws://192.168.1.103:8001");
+    ws.onopen = function(openEvent) {
+        console.log("WebSocket conntected.");
+        //ws.send("WebSocket conntected.");
+        var rec = document.getElementById("recv");
+        rec.innerHTML = "onopen";
+    };
+    
+    ws.onmessage = function(messageEvent) {
+        var data = messageEvent.data;
+        var rec = document.getElementById("recv");
+        //dataObject = JSON.parse(data);
+        //console.log("Guest at " + dataObject.time + ": " + dataObject.guest);
+        rec.innerHTML = "onmessage:" + data;
+    };
+    
+    ws.onerror = function(errorEvent) {
+        console.log("WebSocket error: ", errorEvent);
+        var rec = document.getElementById("recv");
+        rec.innerHTML = "onerror";
+    };
+    
+    ws.onclose = function(closeEvent) {
+        console.log("WebSocket closed.");
+        var rec = document.getElementById("recv");
+        rec.innerHTML = "onclose";
+    };
+
+    document.getElementById("sendBtn").onclick = function(){
+        var txt = document.getElementById("sendTxt").value;
+        ws.send(txt);
+    }
+
+    function AddRow(strInfo){
+        var table1 = document.getElementById("table1");
+        var arrStr = strInfo.split(".");
+        //document.write(strInfo.split(".") + "<br />")
+        var index = arrStr.length;
+        var strFlag = arrStr[index - 1];
+        if(strFlag == "jpg" || strFlag == "png")
+        {
+            if(table1.rows.length==0){
+                var x = table1.insertRow(0);    //向空表插入一行
+                var y = x.insertCell(0);        //向新行插入一列
+                //y.innerHTML = strInfo;
+                var ele = "<div class='td'><img src=\"file://" + strInfo + "\" alt=\"\" width=200 height=100/></div>";
+                y.innerHTML = ele;
+            }else{
+                var z = table1.rows[0].cells;   //如果不是空表，首先获得表格有多少列，先获取再插入新行
+
+                //var ros = table1.cols[0].cells; //获取行数
+                // if(ros.length >= 10)
+                // {
+                //     table1.deleteRow(ros.length - 1);
+                // }
+                
+                var x = table1.insertRow(0);
+                for(var i=0; i < z.length; i++)
+                {
+                    //依次向新行插入表格列数的单元格
+                    var y = x.insertCell(i);
+                    var ele = "<div class='td'><img src=\"file://" + strInfo + "\" alt=\"\" / width=200 height=100></div>";
+                    y.innerHTML = ele;
+                }
+            }
+        } 
+    }
+   
+    var fs = require('fs');
+    var path = require('path');
+    var filePath = path.resolve('E:');
+    //调用文件遍历方法
+    //fileDisplay(filePath);
+    
+    function fileDisplay(filePath)
+    {
+        //根据文件路径读取文件，返回文件列表
+        fs.readdir(filePath, function(err, files){
+            if(err){
+                console.warn(err)
+            }else{
+                //遍历读取到的文件列表
+                files.forEach(function(filename){
+                    //获取当前文件的绝对路径
+                    var filedir = path.join(filePath, filename);
+                    //根据文件路径获取文件信息，返回一个fs.Stats对象
+                    fs.stat(filedir,function(eror,stats)
+                    {
+                        if(eror)
+                        {
+                            console.warn('获取文件stats失败');
+                        }
+                        else
+                        {
+                            var isFile = stats.isFile();//是文件
+                            var isDir = stats.isDirectory();//是文件夹
+                            if(isFile)
+                            {
+                                console.log(filedir);
+                                //alert(filedir);
+                                AddRow(filedir);
+                            }
+                            if(isDir)
+                            {
+                                fileDisplay(filedir);//递归，如果是文件夹，就继续遍历该文件夹下面的文件
+                            }
+                        }
+                    })
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>

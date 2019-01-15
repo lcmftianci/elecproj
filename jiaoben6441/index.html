@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery多张图一起上传插件 - A5源码</title>
+
+<style>
+.main{
+	width: 80%;
+	margin: auto;
+}
+*{
+	padding: 0;
+	margin: 0;
+}
+.btn {
+	padding: 9px 18px;
+	background: #40AFFE;
+	color: #FFFFFF;
+	border-radius: 5px;
+}
+
+.upimg {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	border-radius: 5px;
+	border: dashed #999999;
+	background: url(img/addimg.svg) no-repeat;
+	background-position: 33px;
+}
+
+.upimg input {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	opacity: 0;
+}
+
+#showui {
+	display: flex;
+	justify-content: flex-start;
+}
+
+#showui li {
+	width: 150px;
+	height: 150px;
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+	margin-right: 5px;
+}
+
+#showui li img.showimg {
+	position: absolute;
+	text-align: center;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 6;
+}
+
+.showdiv {
+	position: absolute;
+	z-index: 9;
+	bottom: 0;
+	width: calc(100% - 20px);
+	padding: 10px;
+	display: flex;
+	justify-content: space-around;
+	background: rgba(0, 0, 0, .6);
+}
+
+.showdiv img {
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+
+#showui li:first-child img.left {
+	opacity: .6;
+	cursor: no-drop;
+}
+
+#showui li:last-child img.right {
+	opacity: .6;
+	cursor: no-drop;
+}
+
+.oneright {
+	opacity: .6;
+	cursor: no-drop !important;
+}
+</style>
+
+</head>
+<body>
+
+<div class="main">
+<div id="showimg">
+	<ul id="showui">
+	</ul>
+	<div id="showinput">
+
+	</div>
+</div>
+<div class="upimg">
+	<input type="file" id="upgteimg" value="" multiple />
+</div>
+
+<button class="btn" id="submit">开始上传</button>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/updateimg.js"></script>
+
+<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+<p>适用浏览器：360、FireFox、Chrome、Opera、傲游、搜狗、世界之窗. 不支持Safari、IE8及以下浏览器。</p>
+<p>来源：<a href="http://down.admin5.com/" target="_blank">A5源码</a></p>
+</div>
+</body>
+</html>
